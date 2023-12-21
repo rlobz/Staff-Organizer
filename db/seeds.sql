@@ -23,3 +23,7 @@ VALUES
     ('Carol', 'Daniels', 3, 2),
     ('David', 'Garcia', 4, 2),
     ('Eve', 'Martin', 5, 1);
+
+SELECT * FROM department;
+SELECT * FROM role;
+SELECT * FROM employee;

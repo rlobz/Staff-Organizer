@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS staff_organizer;
+DROP DATABASE IF EXISTS staff_organizer;
+CREATE DATABASE staff_organizer;
 USE staff_organizer;
 
 CREATE TABLE department (

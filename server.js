@@ -29,6 +29,7 @@ function runApp() {
           'Add a role',
           'Add an employee',
           'Update an employee role',
+          'Reset Database',
           'Exit'
       ]
   }).then(answer => {
@@ -53,6 +54,9 @@ function runApp() {
               break;
           case 'Update an employee role':
               updateEmployeeRole();
+              break;
+          case 'Reset Database':
+              resetDatabase();
               break;
           case 'Exit':
               db.end();
@@ -86,6 +90,7 @@ function viewRoles() {
 }
 
 function viewEmployees() {
+    console.log("Fetching employees...");
   const query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager
                  FROM employee
                  LEFT JOIN role ON employee.role_id = role.id
@@ -93,8 +98,9 @@ function viewEmployees() {
                  LEFT JOIN employee manager ON employee.manager_id = manager.id`;
   db.promise().query(query)
       .then(([rows]) => {
-          console.table(rows);
-          runApp();
+        console.log(rows);
+        console.table(rows);
+        runApp();
       })
       .catch(console.log);
 }
@@ -236,3 +242,23 @@ function updateEmployeeRole() {
       .catch(console.log);
 }
 
+
+function resetDatabase() {
+    const queries = [
+        'DELETE FROM employee',
+        'DELETE FROM role',
+        'DELETE FROM department'
+    ];
+
+    let promises = queries.map(query => db.promise().query(query));
+
+    Promise.all(promises)
+        .then(() => {
+            console.log('All tables have been reset.');
+            runApp();
+        })
+        .catch(error => {
+            console.error('Error resetting tables:', error);
+            runApp();
+        });
+}
