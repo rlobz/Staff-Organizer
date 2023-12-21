@@ -1,4 +1,4 @@
-USE employee_tracker;
+USE staff_organizer;
 
 INSERT INTO department (name)
 VALUES 
